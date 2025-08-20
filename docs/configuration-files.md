@@ -27,6 +27,7 @@ Amethyst will pick up a config file located at `~/.amethyst.yml` or `~/.config/a
 | `mouse-resizes-windows` | `true` if changing the frame of a window with the mouse should update the layout to accommodate the change (default `false`). Note that not all layouts will be able to respond to the change. |
 | `enables-layout-hud` | `true` to display the name of the layout when a new layout is selected (default `true`). |
 | `enables-layout-hud-on-space-change` | `true` to display the name of the layout when moving to a new space (default `true`). |
+| `enables-new-windows-to-main-hud` | `true` to display notifications when new windows to main setting changes (default `false`). |
 | `use-canary-build` | `true` to get updates to beta versions of the software (default `false`). |
 | `new-windows-to-main` | `true` to insert new windows into the first position and `false` to insert new windows into the last position (default `false`). |
 | `follow-space-thrown-windows` | `true` to automatically move to a space when throwing a window to it (default `true`). | 
@@ -63,6 +64,7 @@ A mod is a list of keyboard modifiers. Namely, `option`, `control`, `shift`, and
 | `expand-main` | Expand the main pane by a percentage of the screen dimension as defined by `window-resize-step`. Note that not all layouts respond to this command. |
 | `increase-main` | Increase the number of windows in the main pane. Note that not all layouts respond to this command. |
 | `decrease-main` | Decrease the number of windows in the main pane. Note that not all layouts respond to this command. |
+| `toggle-new-windows-to-main` | Toggle whether new windows are inserted at the beginning (main pane) or end of the window list. |
 | `command1` | General purpose command for custom layouts. Functionality is layout-dependent. |
 | `command2` | General purpose command for custom layouts. Functionality is layout-dependent. |
 | `command3` | General purpose command for custom layouts. Functionality is layout-dependent. |

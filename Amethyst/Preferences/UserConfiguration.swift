@@ -85,6 +85,7 @@ enum ConfigurationKey: String {
     case mouseResizesWindows = "mouse-resizes-windows"
     case layoutHUD = "enables-layout-hud"
     case layoutHUDOnSpaceChange = "enables-layout-hud-on-space-change"
+    case newWindowsToMainHUD = "enables-new-windows-to-main-hud"
     case useCanaryBuild = "use-canary-build"
     case newWindowsToMain = "new-windows-to-main"
     case followSpaceThrownWindows = "follow-space-thrown-windows"
@@ -133,6 +134,7 @@ enum CommandKey: String {
     case reevaluateWindows = "reevaluate-windows"
     case toggleFocusFollowsMouse = "toggle-focus-follows-mouse"
     case relaunchAmethyst = "relaunch-amethyst"
+    case toggleNewWindowsToMain = "toggle-new-windows-to-main"
 }
 
 protocol UserConfigurationDelegate: AnyObject {
@@ -641,6 +643,10 @@ class UserConfiguration: NSObject {
         return storage.bool(forKey: .layoutHUDOnSpaceChange)
     }
 
+    func enablesNewWindowsToMainHUD() -> Bool {
+        return storage.bool(forKey: .newWindowsToMainHUD)
+    }
+
     func useCanaryBuild() -> Bool {
         return storage.bool(forKey: .useCanaryBuild)
     }
@@ -680,6 +686,19 @@ class UserConfiguration: NSObject {
     func windowMaxCount() -> Int? {
         let int = Int(storage.float(forKey: .windowMaxCount))
         return int == 0 ? nil : int
+    }
+
+    func toggleNewWindowsToMain() {
+        let currentValue = sendNewWindowsToMainPane()
+
+        // Use KVO-compliant method to trigger UI updates
+        if storage is UserDefaults {
+            UserDefaults.standard.willChangeValue(forKey: ConfigurationKey.newWindowsToMain.rawValue)
+            storage.set(!currentValue, forKey: .newWindowsToMain)
+            UserDefaults.standard.didChangeValue(forKey: ConfigurationKey.newWindowsToMain.rawValue)
+        } else {
+            storage.set(!currentValue, forKey: .newWindowsToMain)
+        }
     }
 
     func windowResizeStep() -> CGFloat {
