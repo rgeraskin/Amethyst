@@ -247,6 +247,13 @@ class HotKeyManager<Application: ApplicationType>: NSObject {
             appDelegate?.relaunch(self)
         }
 
+        constructCommandWithCommandKey(CommandKey.toggleNewWindowsToMain.rawValue) {
+            self.userConfiguration.toggleNewWindowsToMain()
+            DispatchQueue.main.async {
+                windowManager.displayNewWindowsToMainHUD()
+            }
+        }
+
         constructCommandWithCommandKey(CommandKey.increaseWindowMaxCount.rawValue) {
             self.userConfiguration.increaseWindowMaxCount()
             windowManager.markAllScreensForReflow(withChange: .unknown)
@@ -423,6 +430,7 @@ class HotKeyManager<Application: ApplicationType>: NSObject {
         hotKeyNameToDefaultsKey.append(["Display current layout", CommandKey.displayCurrentLayout.rawValue])
         hotKeyNameToDefaultsKey.append(["Toggle focus follows mouse", CommandKey.toggleFocusFollowsMouse.rawValue])
         hotKeyNameToDefaultsKey.append(["Toggle global tiling", CommandKey.toggleTiling.rawValue])
+        hotKeyNameToDefaultsKey.append(["Toggle new windows to main pane sending", CommandKey.toggleNewWindowsToMain.rawValue])
 
         for (layoutKey, layoutName) in LayoutType<Application.Window>.availableLayoutStrings() {
             let commandName = "Select \(layoutName) layout"

@@ -15,11 +15,11 @@ import SwiftyJSON
 
 /**
  The tolerant interval between the click and the application of a mouse move from focus.
- 
+
  - Note:
- 
+
  At the time of the check we confirm that the mouse is not _currently_ clicked. However, it is possible that the click happened faster than the focus notification could be processed so that when we process the focus the mouse is no longer clicked. In this case we could incorrectly move the mouse to the center of the focused window.
- 
+
  This value is an approximation of the time between a fast click and the focus event being processed. For values larger than this we would expect the mouse to still be clicked.
  */
 private let mouseMoveClickSpeedTolerance: TimeInterval = 0.3
@@ -319,6 +319,19 @@ extension WindowManager {
     func displayCurrentLayout() {
         for screenManager in screens.screenManagers {
             screenManager.displayLayoutHUD()
+        }
+    }
+
+    func displayNewWindowsToMainHUD() {
+        guard userConfiguration.enablesNewWindowsToMainHUD() else {
+            return
+        }
+
+        for screenManager in screens.screenManagers {
+            let isEnabled = userConfiguration.sendNewWindowsToMainPane()
+            let statusText = isEnabled ? "On" : "Off"
+            let title = "New Windows to Main Pane: \(statusText)"
+            screenManager.displayCustomHUD(title: title)
         }
     }
 
